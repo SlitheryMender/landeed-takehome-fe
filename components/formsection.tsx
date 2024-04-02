@@ -37,23 +37,24 @@ export default function FormSection({pagedata, step, maxSteps, currIndex, formda
             stringvalue = newvalue.map(x => x.value).join(",")
             onChange(fielddata.field_name, newvalue, stringvalue);
         } else if(newvalue) {
-            stringvalue = newvalue.value
+            stringvalue = newvalue.value as string;
             onChange(fielddata.field_name, newvalue, stringvalue);
         }
     }
 
     useEffect(() => {
         let valid = true;
-        for(let field of pagedata.fields) {
-            if(!field.field_optional){
+        pagedata.fields.forEach((field: FieldData) => {
+            if(field.field_optional === false){
                 if(formdata[field.field_name] && formdata[field.field_name] !== '') {
-                    valid = valid && true;
+                    //Do nothing
                 } else {
-                    valid = valid && false;
+                    valid = false;
                 }
             }
-        }
+        });
         setValidSection(valid);
+
     }, [formdata, pagedata])
 
     return(
@@ -80,13 +81,15 @@ export default function FormSection({pagedata, step, maxSteps, currIndex, formda
                     return null;
                 }
             })}
-            {step + 1 === maxSteps ? 
-                <Button onClick={onSubmit} disabled={!validSection}>Submit</Button> : 
-                <ButtonGroup>
-                    {step !== 0 && <Button onClick={onBack}>Back</Button>}
-                    <Button onClick={onNext} disabled={!validSection}>Next</Button>
-                </ButtonGroup>
-            }
+            <ButtonGroup>
+                {step !== 0 && <Button onClick={onBack}>Back</Button>}
+                {step + 1 === maxSteps ? 
+                    <Button colorScheme="red" onClick={onSubmit} isDisabled={!validSection}>Submit</Button> 
+                    : 
+                    <Button colorScheme="teal" onClick={onNext} isDisabled={!validSection}>Next</Button>
+                }
+            </ButtonGroup>
+            
         </div>
     );
 }

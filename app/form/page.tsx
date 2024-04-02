@@ -21,11 +21,24 @@ export default function Form() {
     let [formdata, setFormData] = useState<FormData>({});
     let [formSubmitData, setFormSubmitData] = useState<FormSubmitData>({});
 
+    useEffect(() => {
+        if(config && config.timeout) {
+            const timeoutId = setTimeout(() => {
+                setFormData({});
+                setFormSubmitData({});
+                setStep(0);
+                alert("Form timed out. Please start again.")
+            }, config.timeout);
+    
+            // Cleanup function to clear the timeout if the component unmounts
+            return () => clearTimeout(timeoutId);
+        }
+      }, [config]);
+
 
     const onChange = (fieldname: string, fieldvalues: null | string | SelectItem | SelectItem[], stringvalues: null | string | number) => {
         setFormData({...formdata, [fieldname]: fieldvalues});
         setFormSubmitData({...formSubmitData, [fieldname] : stringvalues});
-        // console.log(formdata);
     }
 
     useEffect(()=> {
@@ -76,8 +89,16 @@ export default function Form() {
     }
 
     const onSubmit = async (e: any) => {
-        console.log(formSubmitData);
-        await postEntry();
+        try {
+            console.log(formSubmitData);
+            await postEntry();
+            setFormData({});
+            setFormSubmitData({});
+            setStep(0);
+            alert("Form data submitted");
+        } catch(error) {
+            alert("Data could not be submitted");
+        }
     }
 
     useEffect(() => {

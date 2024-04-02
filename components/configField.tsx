@@ -155,7 +155,7 @@ export default function ConfigField({onSubmit}: Props) {
             }
             </CardBody>
             <CardFooter>
-                <Button colorScheme={'teal'} onClick={() => submitField()} disabled={!validSection}>Add Field</Button>
+                <Button colorScheme={'teal'} onClick={() => submitField()} isDisabled={!validSection}>Add Field</Button>
             </CardFooter>
         </Card>
     )

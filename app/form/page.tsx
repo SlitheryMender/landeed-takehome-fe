@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import styles from "../page.module.css";
-import { Button, Center, Spinner, Stack, Text } from "@chakra-ui/react";
+import { Button, ButtonGroup, Center, Spinner, Stack, Text } from "@chakra-ui/react";
 import axios from "axios";
 import { ConfigData, PageData, SelectItem } from "@/types/fields.types";
 import { SingleValue, MultiValue } from "react-select";
@@ -70,6 +70,11 @@ export default function Form() {
         setStep(step + 1);
     }
 
+    const onBack = (e: any) => {
+        e.preventDefault();
+        setStep(step - 1);
+    }
+
     const onSubmit = async (e: any) => {
         console.log(formSubmitData);
         await postEntry();
@@ -100,11 +105,10 @@ export default function Form() {
                     currIndex={step} 
                     onChange={onChange}
                     formdata={formdata}
+                    onNext={onNext}
+                    onBack={onBack}
+                    onSubmit={onSubmit}
                 />
-                {step + 1 === maxSteps ? 
-                    <Button onClick={onSubmit}>Submit</Button> : 
-                    <Button onClick={onNext}>Next</Button>
-                }
             </Stack>
         );
     } else {

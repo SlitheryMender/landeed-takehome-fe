@@ -1,18 +1,22 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-import { Button, Center, Stack } from "@chakra-ui/react";
+import { Box, Button, Center, Container, Stack } from "@chakra-ui/react";
 import Link from "next/link";
 
 export default function Home() {
   return (
-    <Stack>
-    <Center>
-      <Button><Link href={'/form'}>Submit new entry</Link></Button>
+    <Container>
+    <Center mb={4}>
+      <Button colorScheme="blue"><Link href={'/form'}>Submit new entry</Link></Button>
     </Center>
-    <Center>
-      <Button><Link href={'/records'}>View Entries</Link></Button>
+    <Center mb={4}>
+      <Button colorScheme="teal"><Link href={'/records'}>View Entries</Link></Button>
       {/* <Button><Link href={'/form'}>Submit new entry</Link></Button> */}
     </Center>
-    </Stack>
+    <Center>
+      <Button colorScheme="green"><Link href={'/config'}>Font Config</Link></Button>
+      {/* <Button><Link href={'/form'}>Submit new entry</Link></Button> */}
+    </Center>
+    </Container>
   );
 }

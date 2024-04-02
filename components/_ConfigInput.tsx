@@ -4,30 +4,33 @@ import { Input, Text, FormControl, FormHelperText, FormLabel, FormErrorMessage }
 import { useState } from "react";
 
 type Props = {
-    fielddata: FieldData,
+    fielddata: string,
     value: string | null,
+    validation: string,
+    label: string,
+    required: boolean,
     // onChange: (fielddata: FieldData, newvalue: string) => void
     onChange: (fieldname: string, fieldvalues: null | string | SelectItem | SelectItem[], stringvalues: null | string | number) => void;
 }
-export default function _Input({fielddata, value, onChange} : Props) {
+export default function _ConfigInput({fielddata, validation, label, value, required, onChange} : Props) {
 
     let [error, setError] = useState<null|string>(null);
 
     const handleChange = (event: any) => {
         let input = event.target.value;
         console.log({input});
-        switch (fielddata.field_validation) {
+        switch (validation) {
             case "string":
-                onChange(fielddata.field_name, input, input)
+                onChange(fielddata, input, input)
                 setError(null);
                 break;
 
             case "integer":
                 if(isInteger(input)) {
-                    onChange(fielddata.field_name, input, parseInt(input))
+                    onChange(fielddata, input, parseInt(input))
                     setError(null);
                 } else if(input === '') {
-                    onChange(fielddata.field_name, input, input)
+                    onChange(fielddata, input, input)
                 } else {
                     setError("Please enter an integer value.")
                 }
@@ -35,17 +38,17 @@ export default function _Input({fielddata, value, onChange} : Props) {
             
             case "float":
                 if(isFloat(input)) {
-                    onChange(fielddata.field_name, input, parseFloat(input))
+                    onChange(fielddata, input, parseFloat(input))
                     setError(null);
                 } else if(input === '') {
-                    onChange(fielddata.field_name, input, input)
+                    onChange(fielddata, input, input)
                 } else {
                     setError("Please enter a decimal value.")
                 }
                 break;
         
             default:
-                onChange(fielddata.field_name, input, input)
+                onChange(fielddata, input, input)
                 setError(null);
                 break;
         }
@@ -55,11 +58,11 @@ export default function _Input({fielddata, value, onChange} : Props) {
 
     return (
         <FormControl alignContent={"center"} mb={5}>
-            <FormLabel mb='8px'>{fielddata.field_label + (fielddata.field_optional ? '' : '(required)')}</FormLabel>
+            <FormLabel mb='8px'>{label + (required ? '(required)' : '')}</FormLabel>
             <Input
                 value={value || ""}
                 onChange={handleChange}
-                placeholder={fielddata.field_validation === 'string' ? 'Ex: John Doe' : fielddata.field_validation === 'integer' ? 'Ex: 34' : 'Ex: 15.65'}
+                placeholder={validation === 'string' ? 'Ex: John Doe' : validation === 'integer' ? 'Ex: 34' : 'Ex: 15.65'}
                 size='sm'
                 isInvalid={error !== null}
                 errorBorderColor='red.300'

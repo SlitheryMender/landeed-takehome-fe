@@ -1,8 +1,9 @@
 import { FieldData, FormData, PageData, SelectItem } from "@/types/fields.types"
-import { Text } from "@chakra-ui/react";
+import { Button, ButtonGroup, Text } from "@chakra-ui/react";
 import _Input from "./_Input";
 import _Select from "./_Select";
 import { SingleValue, MultiValue } from "react-select";
+import { useEffect, useState } from "react";
 
 type Props = {
     pagedata: PageData,
@@ -11,8 +12,13 @@ type Props = {
     currIndex: number,
     formdata: FormData,
     onChange: (fieldname: string, fieldvalues: null | string | SelectItem | SelectItem[], stringvalues: null | string | number) => void;
+    onNext: (e:any) => void
+    onBack: (e:any) => void
+    onSubmit: (e:any) => void
 }
-export default function FormSection({pagedata, step, maxSteps, currIndex, formdata, onChange}: Props) {
+export default function FormSection({pagedata, step, maxSteps, currIndex, formdata, onChange, onBack, onNext, onSubmit}: Props) {
+
+    const [validSection, setValidSection] = useState(false);
 
     const handleInputChange = (fielddata: FieldData, newvalue: string) => {
         console.log({newvalue});
@@ -36,6 +42,20 @@ export default function FormSection({pagedata, step, maxSteps, currIndex, formda
         }
     }
 
+    useEffect(() => {
+        let valid = true;
+        for(let field of pagedata.fields) {
+            if(!field.field_optional){
+                if(formdata[field.field_name] && formdata[field.field_name] !== '') {
+                    valid = valid && true;
+                } else {
+                    valid = valid && false;
+                }
+            }
+        }
+        setValidSection(valid);
+    }, [formdata, pagedata])
+
     return(
         <div>
             <Text fontSize={"x-large"} alignSelf={"center"} textAlign={"center"}>{pagedata.pageName}</Text>
@@ -49,16 +69,24 @@ export default function FormSection({pagedata, step, maxSteps, currIndex, formda
                                 onChange={onChange} 
                           />
                 } else if(fielddata.field_type === 'select') {
+                    let values = formdata[fielddata.field_name] as SelectItem | SelectItem[];
                     return <_Select 
                                 key={fielddata.field_name}
                                 fielddata={fielddata}
-                                value={formdata[fielddata.field_name]}
+                                value={values}
                                 onChange={handleSelectChange}
                            />
                 } else {
                     return null;
                 }
             })}
+            {step + 1 === maxSteps ? 
+                <Button onClick={onSubmit} disabled={!validSection}>Submit</Button> : 
+                <ButtonGroup>
+                    {step !== 0 && <Button onClick={onBack}>Back</Button>}
+                    <Button onClick={onNext} disabled={!validSection}>Next</Button>
+                </ButtonGroup>
+            }
         </div>
     );
 }

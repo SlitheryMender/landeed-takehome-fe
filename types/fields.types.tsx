@@ -6,7 +6,7 @@ export interface FieldData {
     field_options : null | string[],
     field_options_max: null | number,
     field_options_createable: boolean,
-    field_validation: string
+    field_validation: string | null
 }
 
 export interface PageData {
@@ -21,7 +21,7 @@ export interface ConfigData {
 }
 
 export interface SelectItem {
-    value: string,
+    value: null | string | number,
     label: string
 }
 
@@ -31,4 +31,15 @@ export interface FormData {
 
 export interface FormSubmitData {
     [key: string]: null | string | string[] | number
+}
+
+export interface ConfigFieldData {
+    field_name: null | string,
+    field_type: null | SelectItem,
+    field_label: null | string,
+    field_optional: boolean,
+    field_options : null | string,
+    field_options_max: null | SelectItem,
+    field_options_createable: boolean,
+    field_validation: null | SelectItem
 }

@@ -1,7 +1,7 @@
 import { ConfigFieldData, FieldData, PageData } from "@/types/fields.types"
 import { Button, Card, CardBody, CardFooter, CardHeader, Center, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Stack, StackDivider, Text } from "@chakra-ui/react";
 import { useState } from "react"
-import ConfigField from "./configField";
+import ConfigField from "../config/ConfigField";
 
 
 type Props = {

@@ -7,18 +7,12 @@ import ReactSelectCreatable from "react-select/creatable";
 import { SelectItem } from "@/types/fields.types";
 
 type Props = {
-    fielddata: string,
-    label: string,
-    required: boolean,
-    options?: string[],
-    finalOptions?: SelectItem[]
-    multi?: boolean
-    createable?: boolean,
+    fielddata: FieldData,
     value: null | SelectItem | SelectItem[],
-    onChange: (fielddata: string, newvalue: SelectItem | SelectItem[] ) => void
+    onChange: (fielddata: FieldData, newvalue: SelectItem | SelectItem[] ) => void
 }
 
-export default function _ConfigSelect({fielddata, label, options,finalOptions, required, multi=false, createable=false, value, onChange} : Props) {
+export default function FieldSelect({fielddata, value, onChange} : Props) {
 
     let [error, setError] = useState<null|string>(null);
 
@@ -26,38 +20,38 @@ export default function _ConfigSelect({fielddata, label, options,finalOptions, r
         onChange(fielddata, newvalue);
     }
 
-    let selectOptions : SelectItem[] = options ? options.map((x:string) => {
+    let selectOptions : SelectItem[] = fielddata.field_options ? fielddata.field_options.map((x:string) => {
         let option = {value : x, label: x};
         return option;
     }) : [];
 
     return (
         <FormControl mb={5}>
-            <FormLabel mb='8px'>{label + (required ? '(required)' : '')}</FormLabel>
-            {createable ? 
+            <FormLabel mb='8px'>{fielddata.field_label + (fielddata.field_optional ? '' : '(required)')}</FormLabel>
+            {fielddata.field_options_createable ? 
                 <ReactSelectCreatable
                     value={value}
                     onChange={handleChange}
                     placeholder={'Select a value'}
-                    options={finalOptions || selectOptions}
-                    isMulti={multi}
+                    options={selectOptions}
+                    isMulti={fielddata.field_options_max !== 1}
                     isSearchable
                     isClearable
                     createOptionPosition={'first'}
-                    required={required}
+                    required={!fielddata.field_optional}
                 /> :
                 <Select
                     value={value}
                     onChange={handleChange}
                     placeholder={'Select a value'}
-                    options={finalOptions || selectOptions}
-                    isMulti={multi}
+                    options={selectOptions}
+                    isMulti={fielddata.field_options_max !== 1}
                     isSearchable
                     isClearable
-                    required={required}
+                    required={!fielddata.field_optional}
                 />
             }
-            {required && value === null && 
+            {!fielddata.field_optional && value === null && 
                 <FormErrorMessage color={'red.300'} mb='8px' fontSize={"small"}>{"Please select a value"}</FormErrorMessage>
             }
         </FormControl>

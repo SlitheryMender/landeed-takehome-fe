@@ -1,7 +1,7 @@
 import { FieldData, FormData, PageData, SelectItem } from "@/types/fields.types"
 import { Button, ButtonGroup, Text } from "@chakra-ui/react";
-import _Input from "./_Input";
-import _Select from "./_Select";
+import FieldInput from "../field/FieldInput";
+import FieldSelect from "../field/FieldSelect";
 import { SingleValue, MultiValue } from "react-select";
 import { useEffect, useState } from "react";
 
@@ -63,7 +63,7 @@ export default function FormSection({pagedata, step, maxSteps, currIndex, formda
             {pagedata.fields.map((fielddata: FieldData) => {
                 if(fielddata.field_type === 'textinput') {
                     let text = formdata[fielddata.field_name] as string | null
-                   return <_Input 
+                   return <FieldInput 
                                 key={fielddata.field_name} 
                                 fielddata={fielddata} 
                                 value={text} 
@@ -71,7 +71,7 @@ export default function FormSection({pagedata, step, maxSteps, currIndex, formda
                           />
                 } else if(fielddata.field_type === 'select') {
                     let values = formdata[fielddata.field_name] as SelectItem | SelectItem[];
-                    return <_Select 
+                    return <FieldSelect 
                                 key={fielddata.field_name}
                                 fielddata={fielddata}
                                 value={values}

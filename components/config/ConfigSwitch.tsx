@@ -11,7 +11,7 @@ type Props = {
     onChange: (fielddata: string, newvalue: boolean ) => void
 }
 
-export default function _ConfigSwitch({fielddata, label, required, value, onChange} : Props) {
+export default function ConfigSwitch({fielddata, label, required, value, onChange} : Props) {
 
     let [error, setError] = useState<null|string>(null);
 

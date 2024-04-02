@@ -1,12 +1,12 @@
 import { ConfigFieldData, FieldData, FormData, FormSubmitData, PageData, SelectItem } from "@/types/fields.types"
 import { Button, ButtonGroup, Card, CardBody, CardFooter, Text } from "@chakra-ui/react";
-import _Input from "./_Input";
-import _Select from "./_Select";
+import FieldInput from "../field/FieldInput";
+import FieldSelect from "../field/FieldSelect";
 import { SingleValue, MultiValue } from "react-select";
 import { useEffect, useState } from "react";
-import _ConfigInput from "./_ConfigInput";
-import _ConfigSelect from "./_ConfigSelect";
-import _ConfigSwitch from "./_ConfigSwitch";
+import ConfigInput from "./ConfigInput";
+import ConfigSelect from "./ConfigSelect";
+import ConfigSwitch from "./ConfigSwitch";
 
 type Props = {
     onSubmit: (e: FieldData) => void
@@ -83,7 +83,7 @@ export default function ConfigField({onSubmit}: Props) {
     return(
         <Card variant={"filled"}>
             <CardBody>
-            <_ConfigInput 
+            <ConfigInput 
                 fielddata="field_name" 
                 validation="string"
                 label="Please enter field name" 
@@ -91,14 +91,14 @@ export default function ConfigField({onSubmit}: Props) {
                 value={fielddata.field_name}
                 onChange={handleChange}
             />
-            <_ConfigSwitch
+            <ConfigSwitch
                 value={fielddata.field_optional}
                 onChange={handleSwitchChange}
                 fielddata="field_optional"
                 required
                 label={"Is field optional?"}
             />
-            <_ConfigInput 
+            <ConfigInput 
                 fielddata="field_label" 
                 validation="string"
                 label="Please enter label to show for input on the form" 
@@ -106,7 +106,7 @@ export default function ConfigField({onSubmit}: Props) {
                 value={fielddata.field_label}
                 onChange={handleChange}
             />
-            <_ConfigSelect
+            <ConfigSelect
                 fielddata="field_type"
                 label="Select type of input"
                 required
@@ -116,7 +116,7 @@ export default function ConfigField({onSubmit}: Props) {
             />
             {fielddata.field_type && fielddata.field_type.value === "textinput" &&
                 <>
-                    <_ConfigSelect
+                    <ConfigSelect
                         fielddata="field_validation"
                         label="Select text input type"
                         required
@@ -128,7 +128,7 @@ export default function ConfigField({onSubmit}: Props) {
             }
             {fielddata.field_type && fielddata.field_type.value === 'select' && 
                 <>
-                    <_ConfigInput 
+                    <ConfigInput 
                         fielddata="field_options" 
                         validation="string"
                         label="Please enter options for Select field" 
@@ -136,7 +136,7 @@ export default function ConfigField({onSubmit}: Props) {
                         value={fielddata.field_options}
                         onChange={handleChange}
                     />
-                    <_ConfigSelect
+                    <ConfigSelect
                         fielddata="field_options_max"
                         label="Can user select multiple options ?"
                         required={false}
@@ -144,7 +144,7 @@ export default function ConfigField({onSubmit}: Props) {
                         value={fielddata.field_options_max}
                         onChange={handleSelectChange}
                     />
-                    <_ConfigSwitch
+                    <ConfigSwitch
                         value={fielddata.field_options_createable}
                         onChange={handleSwitchChange}
                         fielddata="field_options_createable"

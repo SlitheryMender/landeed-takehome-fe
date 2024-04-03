@@ -6,7 +6,7 @@ import { Button, ButtonGroup, Center, Spinner, Stack, Text } from "@chakra-ui/re
 import axios from "axios";
 import { ConfigData, PageData, SelectItem } from "@/types/fields.types";
 import { SingleValue, MultiValue } from "react-select";
-import FormSection from "@/components/formsection";
+import FormSection from "@/components/field_form/FormSection";
 import { FormData, FormSubmitData } from "@/types/fields.types";
 
 

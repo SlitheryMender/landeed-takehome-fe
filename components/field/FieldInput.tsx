@@ -2,6 +2,7 @@ import { isFloat, isInteger } from "@/helpers/validations";
 import { FieldData, SelectItem } from "@/types/fields.types";
 import { Input, Text, FormControl, FormHelperText, FormLabel, FormErrorMessage } from "@chakra-ui/react";
 import { useState } from "react";
+// import validate from "validate.js";
 
 type Props = {
     fielddata: FieldData,
@@ -16,6 +17,8 @@ export default function FieldInput({fielddata, value, onChange} : Props) {
     const handleChange = (event: any) => {
         let input = event.target.value;
         console.log({input});
+        // let errors = validate.single(input, fielddata.field_constraints);
+
         switch (fielddata.field_validation) {
             case "string":
                 onChange(fielddata.field_name, input, input)

@@ -42,9 +42,9 @@ export default function Records() {
     if(records && records.length > 0) {
         return (
             <Stack m={4}>
-                {records.map((eachrecord: any) => 
-                    <Card>
-                        {eachrecord.map((eachFieldString: string) => <Text>{eachFieldString}</Text>)}
+                {records.map((eachrecord: any, index: number) => 
+                    <Card key={"eachrecord-card-"+index}>
+                        {eachrecord.map((eachFieldString: string, index2: number) => <Text key={'eachrecord-text-card-' + index + '-' + index2}>{eachFieldString}</Text>)}
                     </Card>
                 )}
             </Stack>

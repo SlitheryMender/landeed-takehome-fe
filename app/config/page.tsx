@@ -6,9 +6,9 @@ import { Button, ButtonGroup, Card, CardFooter, Center, FormControl, FormLabel, 
 import axios from "axios";
 import { ConfigData, FieldData, PageData, SelectItem } from "@/types/fields.types";
 import { SingleValue, MultiValue } from "react-select";
-import FormSection from "@/components/formsection";
+import FormSection from "@/components/field_form/FormSection";
 import { FormData, FormSubmitData } from "@/types/fields.types";
-import EachPage from "@/components/EachPage";
+import EachPage from "@/components/config_form/EachPage";
 import { isFloat, isInteger } from "@/helpers/validations";
 
 

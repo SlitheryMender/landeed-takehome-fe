@@ -17,7 +17,7 @@ export default function ConfigInput({fielddata, validation, label, value, requir
     let [error, setError] = useState<null|string>(null);
 
     const handleChange = (event: any) => {
-        let input = event.target.value;
+        let input = event.target.value.trim();
         console.log({input});
         switch (validation) {
             case "string":
